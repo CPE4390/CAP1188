@@ -58,24 +58,20 @@
 #include <stdint.h>
 #include "CAP1188.h"
 #include "LCD.h"
-#include <stdio.h>
 
-char lcd[17];
 void InitPins(void);
 
 void main(void) {
     char buttons;
-    long i;
     OSCTUNEbits.PLLEN = 1;
     InitPins();
     LCDInit();
-    LCDWriteLine("Running", 0);
+    lprintf(0, "Running");
     InitCAP1188();
     while (1) {
         buttons = GetButtonState();
         ClearButtonState();
-        sprintf(lcd, "%02x", buttons);
-        LCDWriteLine(lcd, 1);
+        lprintf(1, "%02x", buttons);
         __delay_ms(100);
         LATDbits.LATD0 ^= 1;
     }
